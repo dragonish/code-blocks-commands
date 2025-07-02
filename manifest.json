@@ -3,7 +3,7 @@
   "name": "Code Blocks commands",
   "version": "0.1.0",
   "minAppVersion": "0.15.0",
-  "description": "Provide commands to insert code blocks with syntax highlighting, and support triggering commands with backticks.",
+  "description": "Provide commands to insert code blocks with markup, and support triggering commands with backticks.",
   "author": "dragonish",
   "authorUrl": "https://github.com/dragonish",
   "fundingUrl": "https://ko-fi.com/monogamy",

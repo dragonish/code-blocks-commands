@@ -1,0 +1,32 @@
+{
+  "button": {
+    "add": "新增",
+    "back": "返回",
+    "delete": "刪除"
+  },
+  "language": {
+    "label": "語言：",
+    "markup-placeholder": "標記",
+    "lang-placeholder": "語言名稱",
+    "add-tip": "新增新的語言"
+  },
+  "command": {
+    "list-languages": "語言列表",
+    "trigger-suggestions": "觸發建議"
+  },
+  "notification": {
+    "reset": "使用計數已重置。"
+  },
+  "list": {
+    "empty": "未找到語言。",
+    "placeholder": "輸入搜尋詞"
+  },
+  "setting": {
+    "custom-languages": "自定義語言",
+    "custom-languages-desc": "管理自定義語法高亮標記。",
+    "custom-languages-button": "管理",
+    "used-count": "重置使用計數",
+    "used-count-desc": "重置每個語言標記的使用計數。",
+    "used-count-button": "重置"
+  }
+}
