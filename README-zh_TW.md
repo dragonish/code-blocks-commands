@@ -16,7 +16,7 @@
 
 ### 使用反引號觸發命令
 
-你可以透過使用反引號來觸發標記選擇選單：
+您可以透過使用反引號來觸發標記選擇選單：
 
 ![trigger-suggestions](./images/trigger-suggestions.gif)
 
