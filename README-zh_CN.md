@@ -1,5 +1,7 @@
 # Code Blocks commands
 
+[English](./README.md) | **简体中文** | [繁體中文](./README-zh_TW.md)
+
 ## 介绍
 
 这是一个用于 [Obsidian](https://obsidian.md) 的插件，提供命令以插入带有标记的代码块，并支持使用反引号触发命令。
