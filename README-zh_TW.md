@@ -28,6 +28,10 @@
   - 語言名稱：可選，語言的名稱。
   - 標記標題：可選，對於不是從語言名稱派生出來的標記，可以提供一個相關的標題以方便檢索。
 
+## 致謝
+
+- [PrismJS/prism](https://github.com/PrismJS/prism)
+
 ## 許可
 
 [MIT](/LICENSE)

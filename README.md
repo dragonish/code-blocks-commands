@@ -28,6 +28,10 @@ You can trigger the markup selection menu by using backticks:
   - Language name: Optional, the name of the language.
   - Markup title: Optional, for markup that is not derived from the language name, a related title can be provided for easy retrieval.
 
+## Credits
+
+- [PrismJS/prism](https://github.com/PrismJS/prism)
+
 ## License
 
 [MIT](/LICENSE) license
