@@ -68,6 +68,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
             .setValue(language.markup)
             .onChange((value) => {
               this.plugin.settings.customLanguages[index].markup = value.trim();
+              this.plugin.loadLanguages();
               this.plugin.debouncedSaveSettings();
             });
         })
@@ -77,6 +78,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
             .setValue(language.lang)
             .onChange((value) => {
               this.plugin.settings.customLanguages[index].lang = value.trim();
+              this.plugin.loadLanguages();
               this.plugin.debouncedSaveSettings();
             });
         })
@@ -86,6 +88,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
             .setWarning()
             .onClick(() => {
               this.plugin.settings.customLanguages.splice(index, 1);
+              this.plugin.loadLanguages();
               this.plugin.debouncedSaveSettings();
               this.displayManageCustomLanguages(); //! Rerender
             });
