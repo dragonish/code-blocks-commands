@@ -20,7 +20,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
       .setDesc(this.plugin.i18n.t("setting.custom-languages-desc"))
       .addButton((button) => {
         button
-          .setButtonText(this.plugin.i18n.t("setting.custom-languages-button"))
+          .setButtonText(this.plugin.i18n.t("button.manage"))
           .onClick(() => {
             this.displayManageCustomLanguages();
           });
@@ -32,7 +32,19 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
       .setDesc(this.plugin.i18n.t("setting.used-count-desc"))
       .addButton((button) => {
         button
-          .setButtonText(this.plugin.i18n.t("setting.used-count-button"))
+          .setButtonText(this.plugin.i18n.t("button.manage"))
+          .onClick(() => {
+            this.displayManageUsedCount();
+          });
+      });
+
+    //* reset
+    new Setting(containerEl)
+      .setName(this.plugin.i18n.t("setting.reset-used-count"))
+      .setDesc(this.plugin.i18n.t("setting.reset-used-count-desc"))
+      .addButton((button) => {
+        button
+          .setButtonText(this.plugin.i18n.t("button.reset"))
           .setWarning()
           .onClick(() => {
             this.plugin.settings.usedCount = {};
@@ -107,6 +119,46 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
           });
           this.plugin.debouncedSaveSettings();
           this.displayManageCustomLanguages(); //! Rerender
+        });
+    });
+  }
+
+  displayManageUsedCount(): void {
+    const { containerEl } = this;
+
+    containerEl.empty();
+
+    new Setting(containerEl)
+      .setName(this.plugin.i18n.t("setting.used-count"))
+      .setHeading()
+      .addButton((button) => {
+        button.setButtonText(this.plugin.i18n.t("button.back")).onClick(() => {
+          this.display();
+        });
+      });
+
+    const list = Object.entries(this.plugin.settings.usedCount)
+      .map(([key, count]) => ({ key, count }))
+      .sort((a, b) => b.count - a.count);
+
+    list.forEach((item) => {
+      new Setting(containerEl)
+        .setName(
+          this.plugin.i18n.t("setting.used-count-item", {
+            markup: item.key,
+            count: item.count,
+          })
+        )
+        .addButton((button) => {
+          button
+            .setButtonText(this.plugin.i18n.t("button.reset"))
+            .setWarning()
+            .onClick(() => {
+              delete this.plugin.settings.usedCount[item.key];
+              this.plugin.loadLanguages();
+              this.plugin.debouncedSaveSettings();
+              this.displayManageUsedCount(); //! Rerender
+            });
         });
     });
   }

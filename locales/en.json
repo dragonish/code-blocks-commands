@@ -2,7 +2,9 @@
   "button": {
     "add": "Add",
     "back": "Back",
-    "delete": "Delete"
+    "delete": "Delete",
+    "manage": "Manage",
+    "reset": "Reset"
   },
   "language": {
     "label": "Language:",
@@ -24,9 +26,10 @@
   "setting": {
     "custom-languages": "Custom languages",
     "custom-languages-desc": "Manage custom syntax highlighting markups.",
-    "custom-languages-button": "Manage",
-    "used-count": "Reset used count",
-    "used-count-desc": "Reset the usage count of each language markup.",
-    "used-count-button": "Reset"
+    "used-count": "Used count",
+    "used-count-desc": "Manage the usage count of language markups.",
+    "used-count-item": "Markup: {markup} - Count: {count}",
+    "reset-used-count": "Reset used count",
+    "reset-used-count-desc": "Reset the usage count of each language markup."
   }
 }

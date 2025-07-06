@@ -2,7 +2,9 @@
   "button": {
     "add": "添加",
     "back": "返回",
-    "delete": "删除"
+    "delete": "删除",
+    "manage": "管理",
+    "reset": "重置"
   },
   "language": {
     "label": "语言：",
@@ -24,9 +26,10 @@
   "setting": {
     "custom-languages": "自定义语言",
     "custom-languages-desc": "管理自定义语法高亮标记。",
-    "custom-languages-button": "管理",
-    "used-count": "重置使用计数",
-    "used-count-desc": "重置每个语言标记的使用计数。",
-    "used-count-button": "重置"
+    "used-count": "使用计数",
+    "used-count-desc": "管理语言标记的使用计数。",
+    "used-count-item": "标记：{markup} - 计数：{count}",
+    "reset-used-count": "重置使用计数",
+    "reset-used-count-desc": "重置每个语言标记的使用计数。"
   }
 }
