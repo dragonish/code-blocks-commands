@@ -3,7 +3,7 @@ export const DEFAULT_SETTINGS: CodeBlocksPluginSettings = {
   usedCount: {},
 };
 
-export const sourceLanguages = [
+export const sourceLanguages: LanguageCode[] = [
   { markup: "abap", lang: "ABAP" },
   { markup: "abnf", lang: "ABNF" },
   { markup: "actionscript", lang: "ActionScript" },
