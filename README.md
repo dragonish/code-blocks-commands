@@ -23,7 +23,10 @@ You can trigger the markup selection menu by using backticks:
 ### Other features
 
 - The plugin will sort the markup list based on usage habits.
-- Allow custom syntax highlighting markups.
+- Allow custom syntax highlighting markups. For each language:
+  - Markup: **Required**, the markup of the language.
+  - Language name: Optional, the name of the language.
+  - Markup title: Optional, for the markup that are not evolved from the language name, a related title can be provided for easy retrieval.
 
 ## License
 
