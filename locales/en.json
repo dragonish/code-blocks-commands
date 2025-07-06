@@ -9,7 +9,8 @@
   "language": {
     "label": "Language:",
     "markup-placeholder": "Markup",
-    "lang-placeholder": "Language name",
+    "lang-placeholder": "Language name (opt)",
+    "title-placeholder": "Markup title (opt)",
     "add-tip": "Add new language"
   },
   "command": {
@@ -24,6 +25,8 @@
     "placeholder": "Type the search term"
   },
   "setting": {
+    "show-alias-labels": "Show alias labels",
+    "show-alias-labels-desc": "Show alias labels in the language list.",
     "custom-languages": "Custom languages",
     "custom-languages-desc": "Manage custom syntax highlighting markups.",
     "used-count": "Used count",

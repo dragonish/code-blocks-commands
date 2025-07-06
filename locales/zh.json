@@ -9,7 +9,8 @@
   "language": {
     "label": "语言：",
     "markup-placeholder": "标记",
-    "lang-placeholder": "语言名称",
+    "lang-placeholder": "语言名称（可选）",
+    "title-placeholder": "标记标题（可选）",
     "add-tip": "添加新的语言"
   },
   "command": {
@@ -24,6 +25,8 @@
     "placeholder": "输入搜索词"
   },
   "setting": {
+    "show-alias-labels": "显示别名标签",
+    "show-alias-labels-desc": "在语言列表中显示别名标签。",
     "custom-languages": "自定义语言",
     "custom-languages-desc": "管理自定义语法高亮标记。",
     "used-count": "使用计数",

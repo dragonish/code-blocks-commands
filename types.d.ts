@@ -1,6 +1,8 @@
 interface LanguageCode {
   markup: string;
   lang: string;
+  title?: string;
+  isAlias?: boolean;
 }
 
 interface LanguageItem extends LanguageCode {
@@ -12,6 +14,7 @@ interface UsedCount {
 }
 
 interface CodeBlocksPluginSettings {
+  showAliasLabels?: boolean;
   customLanguages: LanguageCode[];
   usedCount: UsedCount;
 }

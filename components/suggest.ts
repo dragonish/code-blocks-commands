@@ -10,6 +10,7 @@ import {
   renderResults,
 } from "obsidian";
 import type { CodeBlocksPlugin } from "./plugin";
+import { renderText } from "./tool";
 
 export class CodeBlocksEditorSuggest extends EditorSuggest<
   FuzzyMatch<LanguageItem>
@@ -41,7 +42,7 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
 
     const result = this.plugin.languages
       .map((item) => {
-        const text = item.lang ? `${item.markup} <${item.lang}>` : item.markup;
+        const text = renderText(item);
         const match = fuzzy(text);
         if (match) {
           return {
@@ -88,10 +89,15 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
   }
 
   renderSuggestion(value: FuzzyMatch<LanguageItem>, el: HTMLElement): void {
-    const text = value.item.lang
-      ? `${value.item.markup} <${value.item.lang}>`
-      : value.item.markup;
+    const text = renderText(value.item);
     renderResults(el, text, value.match);
+    if (this.plugin.settings.showAliasLabels && value.item.isAlias) {
+      const alias = createEl("small", {
+        cls: "code-blocks-commands-list-alias-label",
+        text: "alias",
+      });
+      el.appendChild(alias);
+    }
   }
 
   selectSuggestion(value: FuzzyMatch<LanguageItem>): void {

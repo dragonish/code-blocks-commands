@@ -1,5 +1,6 @@
 import { App, FuzzyMatch, FuzzySuggestModal, renderResults } from "obsidian";
 import type { CodeBlocksPlugin } from "./plugin";
+import { renderText } from "./tool";
 
 type SelectCallback = (markup: string) => void;
 
@@ -20,7 +21,7 @@ export class CodeBlocksListModal extends FuzzySuggestModal<LanguageCode> {
   }
 
   getItemText(item: LanguageCode): string {
-    const text = item.lang ? `${item.markup} <${item.lang}>` : item.markup;
+    const text = renderText(item);
     return text;
   }
 
@@ -29,9 +30,14 @@ export class CodeBlocksListModal extends FuzzySuggestModal<LanguageCode> {
   }
 
   renderSuggestion(match: FuzzyMatch<LanguageCode>, el: HTMLElement): void {
-    const text = match.item.lang
-      ? `${match.item.markup} <${match.item.lang}>`
-      : match.item.markup;
+    const text = renderText(match.item);
     renderResults(el, text, match.match);
+    if (this.plugin.settings.showAliasLabels && match.item.isAlias) {
+      const alias = createEl("small", {
+        cls: "code-blocks-commands-list-alias-label",
+        text: "alias",
+      });
+      el.appendChild(alias);
+    }
   }
 }

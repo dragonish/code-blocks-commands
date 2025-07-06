@@ -14,6 +14,19 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
 
     containerEl.empty();
 
+    //* showAliasLabel
+    new Setting(containerEl)
+      .setName(this.plugin.i18n.t("setting.show-alias-labels"))
+      .setDesc(this.plugin.i18n.t("setting.show-alias-labels-desc"))
+      .addToggle((toggle) => {
+        toggle
+          .setValue(this.plugin.settings.showAliasLabels || false)
+          .onChange((value) => {
+            this.plugin.settings.showAliasLabels = value;
+            this.plugin.debouncedSaveSettings();
+          });
+      });
+
     //* customLanguages
     new Setting(containerEl)
       .setName(this.plugin.i18n.t("setting.custom-languages"))
@@ -90,6 +103,16 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
             .setValue(language.lang)
             .onChange((value) => {
               this.plugin.settings.customLanguages[index].lang = value.trim();
+              this.plugin.loadLanguages();
+              this.plugin.debouncedSaveSettings();
+            });
+        })
+        .addText((text) => {
+          text
+            .setPlaceholder(this.plugin.i18n.t("language.title-placeholder"))
+            .setValue(language.title || "")
+            .onChange((value) => {
+              this.plugin.settings.customLanguages[index].title = value.trim();
               this.plugin.loadLanguages();
               this.plugin.debouncedSaveSettings();
             });
