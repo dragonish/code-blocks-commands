@@ -1,7 +1,7 @@
 {
   "id": "code-blocks-commands",
   "name": "Code Blocks commands",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "minAppVersion": "0.15.0",
   "description": "Provide commands to insert code blocks with markup, and support triggering commands with backticks.",
   "author": "dragonish",
