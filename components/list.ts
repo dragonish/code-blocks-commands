@@ -11,9 +11,10 @@ export class CodeBlocksListModal extends FuzzySuggestModal<LanguageCode> {
     private selectCallback: SelectCallback
   ) {
     super(app);
+    const { i18n } = this.plugin;
 
-    this.emptyStateText = this.plugin.i18n.t("list.empty");
-    this.setPlaceholder(this.plugin.i18n.t("list.placeholder"));
+    this.emptyStateText = i18n.t("list.empty");
+    this.setPlaceholder(i18n.t("list.placeholder"));
   }
 
   getItems(): LanguageCode[] {

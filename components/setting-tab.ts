@@ -10,14 +10,17 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
   }
 
   display(): void {
-    const { containerEl } = this;
+    const {
+      containerEl,
+      plugin: { i18n },
+    } = this;
 
     containerEl.empty();
 
     //* showAliasLabel
     new Setting(containerEl)
-      .setName(this.plugin.i18n.t("setting.show-alias-labels"))
-      .setDesc(this.plugin.i18n.t("setting.show-alias-labels-desc"))
+      .setName(i18n.t("setting.show-alias-labels"))
+      .setDesc(i18n.t("setting.show-alias-labels-desc"))
       .addToggle((toggle) => {
         toggle
           .setValue(this.plugin.settings.showAliasLabels || false)
@@ -29,67 +32,64 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
 
     //* customLanguages
     new Setting(containerEl)
-      .setName(this.plugin.i18n.t("setting.custom-languages"))
-      .setDesc(this.plugin.i18n.t("setting.custom-languages-desc"))
+      .setName(i18n.t("setting.custom-languages"))
+      .setDesc(i18n.t("setting.custom-languages-desc"))
       .addButton((button) => {
-        button
-          .setButtonText(this.plugin.i18n.t("button.manage"))
-          .onClick(() => {
-            this.displayManageCustomLanguages();
-          });
+        button.setButtonText(i18n.t("button.manage")).onClick(() => {
+          this.displayManageCustomLanguages();
+        });
       });
 
     //* usedCount
     new Setting(containerEl)
-      .setName(this.plugin.i18n.t("setting.used-count"))
-      .setDesc(this.plugin.i18n.t("setting.used-count-desc"))
+      .setName(i18n.t("setting.used-count"))
+      .setDesc(i18n.t("setting.used-count-desc"))
       .addButton((button) => {
-        button
-          .setButtonText(this.plugin.i18n.t("button.manage"))
-          .onClick(() => {
-            this.displayManageUsedCount();
-          });
+        button.setButtonText(i18n.t("button.manage")).onClick(() => {
+          this.displayManageUsedCount();
+        });
       });
 
     //* reset
     new Setting(containerEl)
-      .setName(this.plugin.i18n.t("setting.reset-used-count"))
-      .setDesc(this.plugin.i18n.t("setting.reset-used-count-desc"))
+      .setName(i18n.t("setting.reset-used-count"))
+      .setDesc(i18n.t("setting.reset-used-count-desc"))
       .addButton((button) => {
         button
-          .setButtonText(this.plugin.i18n.t("button.reset"))
+          .setButtonText(i18n.t("button.reset"))
           .setWarning()
           .onClick(() => {
             this.plugin.settings.usedCount = {};
             this.plugin.loadLanguages();
             this.plugin.debouncedSaveSettings();
-            this.plugin.sendNotification(
-              this.plugin.i18n.t("notification.reset")
-            );
+            this.plugin.sendNotification(i18n.t("notification.reset"));
           });
       });
   }
 
   displayManageCustomLanguages(): void {
-    const { containerEl } = this;
+    const {
+      containerEl,
+      plugin: { i18n },
+    } = this;
 
     containerEl.empty();
 
     new Setting(containerEl)
-      .setName(this.plugin.i18n.t("setting.custom-languages"))
+      .setName(i18n.t("setting.custom-languages"))
       .setHeading()
       .addButton((button) =>
-        button.setButtonText(this.plugin.i18n.t("button.back")).onClick(() => {
+        button.setButtonText(i18n.t("button.back")).onClick(() => {
           this.display();
         })
       );
 
     this.plugin.settings.customLanguages.forEach((language, index) => {
       new Setting(containerEl)
-        .setName(this.plugin.i18n.t("language.label"))
+        .setName(i18n.t("language.label"))
         .addText((text) => {
           text
-            .setPlaceholder(this.plugin.i18n.t("language.markup-placeholder"))
+            .setPlaceholder(i18n.t("language.markup-placeholder"))
             .setValue(language.markup)
             .onChange((value) => {
               this.plugin.settings.customLanguages[index].markup = value.trim();
@@ -99,7 +99,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         })
         .addText((text) => {
           text
-            .setPlaceholder(this.plugin.i18n.t("language.lang-placeholder"))
+            .setPlaceholder(i18n.t("language.lang-placeholder"))
             .setValue(language.lang)
             .onChange((value) => {
               this.plugin.settings.customLanguages[index].lang = value.trim();
@@ -109,7 +109,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         })
         .addText((text) => {
           text
-            .setPlaceholder(this.plugin.i18n.t("language.title-placeholder"))
+            .setPlaceholder(i18n.t("language.title-placeholder"))
             .setValue(language.title || "")
             .onChange((value) => {
               this.plugin.settings.customLanguages[index].title = value.trim();
@@ -119,7 +119,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         })
         .addButton((button) => {
           button
-            .setButtonText(this.plugin.i18n.t("button.delete"))
+            .setButtonText(i18n.t("button.delete"))
             .setWarning()
             .onClick(() => {
               this.plugin.settings.customLanguages.splice(index, 1);
@@ -132,9 +132,9 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
 
     new Setting(containerEl).addButton((button) => {
       button
-        .setButtonText(this.plugin.i18n.t("button.add"))
+        .setButtonText(i18n.t("button.add"))
         .setCta()
-        .setTooltip(this.plugin.i18n.t("language.add-tip"))
+        .setTooltip(i18n.t("language.add-tip"))
         .onClick(() => {
           this.plugin.settings.customLanguages.push({
             markup: "",
@@ -147,15 +147,18 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
   }
 
   displayManageUsedCount(): void {
-    const { containerEl } = this;
+    const {
+      containerEl,
+      plugin: { i18n },
+    } = this;
 
     containerEl.empty();
 
     new Setting(containerEl)
-      .setName(this.plugin.i18n.t("setting.used-count"))
+      .setName(i18n.t("setting.used-count"))
       .setHeading()
       .addButton((button) => {
-        button.setButtonText(this.plugin.i18n.t("button.back")).onClick(() => {
+        button.setButtonText(i18n.t("button.back")).onClick(() => {
           this.display();
         });
       });
@@ -167,14 +170,14 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
     list.forEach((item) => {
       new Setting(containerEl)
         .setName(
-          this.plugin.i18n.t("setting.used-count-item", {
+          i18n.t("setting.used-count-item", {
             markup: item.key,
             count: item.count,
           })
         )
         .addButton((button) => {
           button
-            .setButtonText(this.plugin.i18n.t("button.reset"))
+            .setButtonText(i18n.t("button.reset"))
             .setWarning()
             .onClick(() => {
               delete this.plugin.settings.usedCount[item.key];
