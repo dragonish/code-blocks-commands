@@ -17,7 +17,10 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
 > {
   private isOpen: boolean;
 
-  constructor(public app: App, public plugin: CodeBlocksPlugin) {
+  constructor(
+    public app: App,
+    public plugin: CodeBlocksPlugin,
+  ) {
     super(app);
     this.isOpen = false;
   }
@@ -33,7 +36,11 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
   }
 
   toggle() {
-    this.isOpen ? this.close() : this.open();
+    if (this.isOpen) {
+      this.close();
+    } else {
+      this.open();
+    }
   }
 
   getSuggestions(context: EditorSuggestContext): FuzzyMatch<LanguageItem>[] {
@@ -64,7 +71,7 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
 
   onTrigger(
     cursor: EditorPosition,
-    editor: Editor
+    editor: Editor,
   ): EditorSuggestTriggerInfo | null {
     const line = cursor.line;
     const lineText = editor.getLine(line);

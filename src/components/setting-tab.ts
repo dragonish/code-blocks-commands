@@ -57,7 +57,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
       .addButton((button) => {
         button
           .setButtonText(i18n.t("button.reset"))
-          .setWarning()
+          .setDestructive()
           .onClick(() => {
             this.plugin.settings.usedCount = {};
             this.plugin.loadLanguages();
@@ -80,8 +80,8 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
       .setHeading()
       .addButton((button) =>
         button.setButtonText(i18n.t("button.back")).onClick(() => {
-          this.display();
-        })
+          this.update();
+        }),
       );
 
     this.plugin.settings.customLanguages.forEach((language, index) => {
@@ -120,7 +120,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         .addButton((button) => {
           button
             .setButtonText(i18n.t("button.delete"))
-            .setWarning()
+            .setDestructive()
             .onClick(() => {
               this.plugin.settings.customLanguages.splice(index, 1);
               this.plugin.loadLanguages();
@@ -159,7 +159,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
       .setHeading()
       .addButton((button) => {
         button.setButtonText(i18n.t("button.back")).onClick(() => {
-          this.display();
+          this.update();
         });
       });
 
@@ -173,12 +173,12 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
           i18n.t("setting.used-count-item", {
             markup: item.key,
             count: item.count,
-          })
+          }),
         )
         .addButton((button) => {
           button
             .setButtonText(i18n.t("button.reset"))
-            .setWarning()
+            .setDestructive()
             .onClick(() => {
               delete this.plugin.settings.usedCount[item.key];
               this.plugin.loadLanguages();
