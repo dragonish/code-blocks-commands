@@ -43,7 +43,7 @@ export class CodeBlocksPlugin extends Plugin {
       this.i18n.t("command.list-languages"),
       () => {
         this.showLanguagesModal();
-      }
+      },
     );
 
     this.addSettingTab(new CodeBlocksPluginSettingsTab(this.app, this));
