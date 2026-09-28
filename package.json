@@ -17,7 +17,7 @@
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.0",
     "@eslint/js": "^10.0.1",
-    "@types/node": "^20.19.4",
+    "@types/node": "^22.15.17",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
     "commit-and-tag-version": "^13.1.2",
