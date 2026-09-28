@@ -1,4 +1,10 @@
-import { App, PluginSettingTab, Setting } from "obsidian";
+import {
+  App,
+  ButtonComponent,
+  PluginSettingTab,
+  Setting,
+  TextComponent,
+} from "obsidian";
 import { CodeBlocksPlugin } from "./plugin";
 
 export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
@@ -101,48 +107,56 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
       );
 
     this.plugin.settings.customLanguages.forEach((language, index) => {
-      new Setting(containerEl)
-        .setName(i18n.t("language.label", { index: index + 1 }))
-        .addText((text) => {
-          text
-            .setPlaceholder(i18n.t("language.markup-placeholder"))
-            .setValue(language.markup)
-            .onChange((value) => {
-              this.plugin.settings.customLanguages[index].markup = value.trim();
-              this.plugin.loadLanguages();
-              this.plugin.debouncedSaveSettings();
-            });
-        })
-        .addText((text) => {
-          text
-            .setPlaceholder(i18n.t("language.lang-placeholder"))
-            .setValue(language.lang)
-            .onChange((value) => {
-              this.plugin.settings.customLanguages[index].lang = value.trim();
-              this.plugin.loadLanguages();
-              this.plugin.debouncedSaveSettings();
-            });
-        })
-        .addText((text) => {
-          text
-            .setPlaceholder(i18n.t("language.title-placeholder"))
-            .setValue(language.title || "")
-            .onChange((value) => {
-              this.plugin.settings.customLanguages[index].title = value.trim();
-              this.plugin.loadLanguages();
-              this.plugin.debouncedSaveSettings();
-            });
-        })
-        .addButton((button) => {
-          button
-            .setButtonText(i18n.t("button.delete"))
-            .setDestructive()
-            .onClick(() => {
-              this.plugin.settings.customLanguages.splice(index, 1);
-              this.plugin.loadLanguages();
-              this.plugin.debouncedSaveSettings();
-              this.displayManageCustomLanguages(); //! Rerender
-            });
+      const card = containerEl.createDiv({
+        cls: "code-blocks-commands-language-card",
+      });
+
+      const header = card.createDiv({
+        cls: "code-blocks-commands-language-header",
+      });
+      header.createSpan({
+        text: i18n.t("language.label", { index: index + 1 }),
+      });
+
+      new ButtonComponent(header)
+        .setButtonText(i18n.t("button.delete"))
+        .setDestructive()
+        .onClick(() => {
+          this.plugin.settings.customLanguages.splice(index, 1);
+          this.plugin.loadLanguages();
+          this.plugin.debouncedSaveSettings();
+          this.displayManageCustomLanguages(); //! Rerender
+        });
+
+      const fields = card.createDiv({
+        cls: "code-blocks-commands-language-fields",
+      });
+
+      new TextComponent(fields)
+        .setPlaceholder(i18n.t("language.markup-placeholder"))
+        .setValue(language.markup)
+        .onChange((value) => {
+          this.plugin.settings.customLanguages[index].markup = value.trim();
+          this.plugin.loadLanguages();
+          this.plugin.debouncedSaveSettings();
+        });
+
+      new TextComponent(fields)
+        .setPlaceholder(i18n.t("language.lang-placeholder"))
+        .setValue(language.lang)
+        .onChange((value) => {
+          this.plugin.settings.customLanguages[index].lang = value.trim();
+          this.plugin.loadLanguages();
+          this.plugin.debouncedSaveSettings();
+        });
+
+      new TextComponent(fields)
+        .setPlaceholder(i18n.t("language.title-placeholder"))
+        .setValue(language.title || "")
+        .onChange((value) => {
+          this.plugin.settings.customLanguages[index].title = value.trim();
+          this.plugin.loadLanguages();
+          this.plugin.debouncedSaveSettings();
         });
     });
 

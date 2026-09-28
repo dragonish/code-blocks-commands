@@ -2,3 +2,33 @@
   font-style: italic;
   margin-left: var(--size-4-1);
 }
+
+.code-blocks-commands-language-card {
+  background-color: var(--setting-items-background, var(--background-secondary));
+  border: var(--setting-items-border-width, 1px) solid
+    var(--setting-items-border-color, var(--background-modifier-border));
+  border-radius: var(--setting-items-radius, var(--radius-m));
+  padding: var(--size-4-4);
+  margin-bottom: var(--size-4-2);
+}
+
+.code-blocks-commands-language-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-4-2);
+  margin-bottom: var(--size-4-3);
+  color: var(--text-normal);
+  font-size: var(--font-ui-small);
+}
+
+.code-blocks-commands-language-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4-2);
+}
+
+.code-blocks-commands-language-fields input[type="text"] {
+  flex: 1 1 8em;
+  min-width: 0;
+}
