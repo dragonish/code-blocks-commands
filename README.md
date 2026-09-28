@@ -27,6 +27,7 @@ You can trigger the markup selection menu by using backticks:
   - Markup: **Required**, the markup of the language.
   - Language name: Optional, the name of the language.
   - Markup title: Optional, for markup that is not derived from the language name, a related title can be provided for easy retrieval.
+- Optionally include the parameters of the [Codeblock Customizer](https://github.com/mugiwara85/CodeblockCustomizer) plugin in the markup list. Enable it in the plugin settings if you have that plugin installed.
 
 ## Credits
 

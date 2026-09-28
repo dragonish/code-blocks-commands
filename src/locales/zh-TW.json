@@ -27,6 +27,8 @@
   "setting": {
     "show-alias-labels": "顯示別名標籤",
     "show-alias-labels-desc": "在語言列表中顯示別名標籤。",
+    "show-cbc-parameters": "顯示 Codeblock Customizer 參數",
+    "show-cbc-parameters-desc": "在標記列表中包含 Codeblock Customizer 參數。僅在安裝了 Codeblock Customizer 外掛時才需要。",
     "custom-languages": "自定義語言",
     "custom-languages-desc": "管理自定義語法高亮標記。",
     "used-count": "使用計數",

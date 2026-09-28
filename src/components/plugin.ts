@@ -1,6 +1,10 @@
 import { Plugin, Editor, Notice, debounce } from "obsidian";
 import { i18n } from "../locales";
-import { DEFAULT_SETTINGS, sourceLanguages } from "./data";
+import {
+  DEFAULT_SETTINGS,
+  sourceLanguages,
+  codeblockCustomizerParameters,
+} from "./data";
 import { CodeBlocksEditorSuggest } from "./suggest";
 import { CodeBlocksListModal } from "./list";
 import { CodeBlocksPluginSettingsTab } from "./setting-tab";
@@ -73,9 +77,13 @@ export class CodeBlocksPlugin extends Plugin {
   debouncedSaveSettings = debounce(this.saveSettings.bind(this), 1000, true);
 
   loadLanguages() {
+    const builtinLanguages = this.settings.showCodeblockCustomizerParameters
+      ? sourceLanguages.concat(codeblockCustomizerParameters)
+      : sourceLanguages;
+
     this.languages = this.settings.customLanguages
       .filter((item) => item.markup)
-      .concat(sourceLanguages)
+      .concat(builtinLanguages)
       .map((item) => ({
         ...item,
         count: this.settings.usedCount[item.markup] || 0,

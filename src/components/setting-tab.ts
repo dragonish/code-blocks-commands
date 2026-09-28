@@ -30,6 +30,22 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
           });
       });
 
+    //* showCodeblockCustomizerParameters
+    new Setting(containerEl)
+      .setName(i18n.t("setting.show-cbc-parameters"))
+      .setDesc(i18n.t("setting.show-cbc-parameters-desc"))
+      .addToggle((toggle) => {
+        toggle
+          .setValue(
+            this.plugin.settings.showCodeblockCustomizerParameters || false,
+          )
+          .onChange((value) => {
+            this.plugin.settings.showCodeblockCustomizerParameters = value;
+            this.plugin.loadLanguages();
+            this.plugin.debouncedSaveSettings();
+          });
+      });
+
     //* customLanguages
     new Setting(containerEl)
       .setName(i18n.t("setting.custom-languages"))

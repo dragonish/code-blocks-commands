@@ -1,5 +1,6 @@
 export const DEFAULT_SETTINGS: CodeBlocksPluginSettings = {
   showAliasLabels: false,
+  showCodeblockCustomizerParameters: false,
   customLanguages: [],
   usedCount: {},
 };
@@ -437,4 +438,203 @@ export const sourceLanguages: LanguageCode[] = [
   { markup: "yang", lang: "YANG" },
   { markup: "yml", lang: "YAML", isAlias: true },
   { markup: "zig", lang: "Zig" },
+];
+
+export const codeblockCustomizerParameters: LanguageCode[] = [
+  {
+    markup: "file:",
+    lang: "Codeblock Customizer",
+    title: "Display Filename",
+  },
+  {
+    markup: "title:",
+    lang: "Codeblock Customizer",
+    title: "Display Title",
+    isAlias: true,
+  },
+  {
+    markup: "ln:",
+    lang: "Codeblock Customizer",
+    title: "Line Numbers",
+  },
+  {
+    markup: "hl:",
+    lang: "Codeblock Customizer",
+    title: "Main Highlight",
+  },
+  {
+    markup: "hlt:",
+    lang: "Codeblock Customizer",
+    title: "Text Highlight",
+  },
+  {
+    markup: "fold",
+    lang: "Codeblock Customizer",
+    title: "Default Fold",
+  },
+  {
+    markup: "unfold",
+    lang: "Codeblock Customizer",
+    title: "Inverse Fold Behavior",
+  },
+  {
+    markup: "group:",
+    lang: "Codeblock Customizer",
+    title: "Grouped Code Blocks",
+  },
+  {
+    markup: "prompt:bash",
+    lang: "Codeblock Customizer",
+    title: "Bash prompt",
+  },
+  {
+    markup: "prompt:bashalt",
+    lang: "Codeblock Customizer",
+    title: "Alternative bash prompt",
+  },
+  {
+    markup: "prompt:cmd",
+    lang: "Codeblock Customizer",
+    title: "Windows CMD Prompt",
+  },
+  {
+    markup: "prompt:cstrike",
+    lang: "Codeblock Customizer",
+    title: "Cobalt Strike Prompt",
+  },
+  {
+    markup: "prompt:docker",
+    lang: "Codeblock Customizer",
+    title: "Docker prompt",
+  },
+  {
+    markup: "prompt:fish",
+    lang: "Codeblock Customizer",
+    title: "Fish Prompt",
+  },
+  {
+    markup: "prompt:kali",
+    lang: "Codeblock Customizer",
+    title: "Kali Linux Prompt",
+  },
+  {
+    markup: "prompt:msf",
+    lang: "Codeblock Customizer",
+    title: "Metasploit prompt",
+  },
+  {
+    markup: "prompt:postgres",
+    lang: "Codeblock Customizer",
+    title: "Postgres Prompt",
+  },
+  {
+    markup: "prompt:ps",
+    lang: "Codeblock Customizer",
+    title: "PowerShell prompt",
+  },
+  {
+    markup: "prompt:zsh",
+    lang: "Codeblock Customizer",
+    title: "ZSH prompt",
+  },
+  {
+    markup: "prompt:zshgit",
+    lang: "Codeblock Customizer",
+    title: "ZSH+Git prompt",
+  },
+  {
+    markup: "prompt:",
+    lang: "Codeblock Customizer",
+    title: "On-The-Fly Prompts",
+  },
+  {
+    markup: "parse:bash",
+    lang: "Codeblock Customizer",
+    title: "Parsing Bash output",
+  },
+  {
+    markup: "parse:bashalt",
+    lang: "Codeblock Customizer",
+    title: "Parsing Alternative bash output",
+  },
+  {
+    markup: "parse:cmd",
+    lang: "Codeblock Customizer",
+    title: "Parsing Windows CMD output",
+  },
+  {
+    markup: "parse:cstrike",
+    lang: "Codeblock Customizer",
+    title: "Parsing Cobalt Strike output",
+  },
+  {
+    markup: "parse:docker",
+    lang: "Codeblock Customizer",
+    title: "Parsing Docker output",
+  },
+  {
+    markup: "parse:fish",
+    lang: "Codeblock Customizer",
+    title: "Parsing Fish output",
+  },
+  {
+    markup: "parse:kali",
+    lang: "Codeblock Customizer",
+    title: "Parsing Kali Linux output",
+  },
+  {
+    markup: "parse:msf",
+    lang: "Codeblock Customizer",
+    title: "Parsing Metasploit output",
+  },
+  {
+    markup: "parse:postgres",
+    lang: "Codeblock Customizer",
+    title: "Parsing Postgres output",
+  },
+  {
+    markup: "parse:ps",
+    lang: "Codeblock Customizer",
+    title: "Parsing PowerShell output",
+  },
+  {
+    markup: "parse:zsh",
+    lang: "Codeblock Customizer",
+    title: "Parsing ZSH output",
+  },
+  {
+    markup: "parse:zshgit",
+    lang: "Codeblock Customizer",
+    title: "Parsing ZSH+Git output",
+  },
+  {
+    markup: "parse:",
+    lang: "Codeblock Customizer",
+    title: "Parsing raw CLI output",
+  },
+  {
+    markup: "hide:",
+    lang: "Codeblock Customizer",
+    title: "Hiding Lines",
+  },
+  {
+    markup: "exclude",
+    lang: "Codeblock Customizer",
+    title: "Exclude the code block",
+  },
+  {
+    markup: "lsep:",
+    lang: "Codeblock Customizer",
+    title: "Line separator",
+  },
+  {
+    markup: "tsep:",
+    lang: "Codeblock Customizer",
+    title: "Text separator",
+  },
+  {
+    markup: "noprompt:",
+    lang: "Codeblock Customizer",
+    title: "Disables prompts",
+  },
 ];

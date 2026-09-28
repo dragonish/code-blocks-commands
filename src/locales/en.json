@@ -27,6 +27,8 @@
   "setting": {
     "show-alias-labels": "Show alias labels",
     "show-alias-labels-desc": "Show alias labels in the language list.",
+    "show-cbc-parameters": "Show Codeblock Customizer parameters",
+    "show-cbc-parameters-desc": "Include Codeblock Customizer parameters in the markup list. Only needed if you have the Codeblock Customizer plugin installed.",
     "custom-languages": "Custom languages",
     "custom-languages-desc": "Manage custom syntax highlighting markups.",
     "used-count": "Used count",

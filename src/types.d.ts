@@ -15,6 +15,7 @@ interface UsedCount {
 
 interface CodeBlocksPluginSettings {
   showAliasLabels?: boolean;
+  showCodeblockCustomizerParameters?: boolean;
   customLanguages: LanguageCode[];
   usedCount: UsedCount;
 }
