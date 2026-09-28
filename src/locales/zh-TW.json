@@ -7,7 +7,7 @@
     "reset": "重置"
   },
   "language": {
-    "label": "語言：",
+    "label": "語言 {index}:",
     "markup-placeholder": "標記",
     "lang-placeholder": "語言名稱（可選）",
     "title-placeholder": "標記標題（可選）",

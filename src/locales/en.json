@@ -7,7 +7,7 @@
     "reset": "Reset"
   },
   "language": {
-    "label": "Language:",
+    "label": "Language {index}:",
     "markup-placeholder": "Markup",
     "lang-placeholder": "Language name (opt)",
     "title-placeholder": "Markup title (opt)",

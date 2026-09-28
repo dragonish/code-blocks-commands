@@ -102,7 +102,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
 
     this.plugin.settings.customLanguages.forEach((language, index) => {
       new Setting(containerEl)
-        .setName(i18n.t("language.label"))
+        .setName(i18n.t("language.label", { index: index + 1 }))
         .addText((text) => {
           text
             .setPlaceholder(i18n.t("language.markup-placeholder"))
