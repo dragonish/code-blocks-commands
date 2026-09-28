@@ -108,11 +108,11 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
 
     this.plugin.settings.customLanguages.forEach((language, index) => {
       const card = containerEl.createDiv({
-        cls: "code-blocks-commands-language-card",
+        cls: "code-blocks-commands-card",
       });
 
       const header = card.createDiv({
-        cls: "code-blocks-commands-language-header",
+        cls: "code-blocks-commands-card-header",
       });
       header.createSpan({
         text: i18n.t("language.label", { index: index + 1 }),
@@ -198,23 +198,28 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
       .sort((a, b) => b.count - a.count);
 
     list.forEach((item) => {
-      new Setting(containerEl)
-        .setName(
-          i18n.t("setting.used-count-item", {
-            markup: item.key,
-            count: item.count,
-          }),
-        )
-        .addButton((button) => {
-          button
-            .setButtonText(i18n.t("button.reset"))
-            .setDestructive()
-            .onClick(() => {
-              delete this.plugin.settings.usedCount[item.key];
-              this.plugin.loadLanguages();
-              this.plugin.debouncedSaveSettings();
-              this.displayManageUsedCount(); //! Rerender
-            });
+      const card = containerEl.createDiv({
+        cls: "code-blocks-commands-card",
+      });
+
+      const header = card.createDiv({
+        cls: "code-blocks-commands-card-header",
+      });
+      header.createSpan({
+        text: i18n.t("setting.used-count-item", {
+          markup: item.key,
+          count: item.count,
+        }),
+      });
+
+      new ButtonComponent(header)
+        .setButtonText(i18n.t("button.reset"))
+        .setDestructive()
+        .onClick(() => {
+          delete this.plugin.settings.usedCount[item.key];
+          this.plugin.loadLanguages();
+          this.plugin.debouncedSaveSettings();
+          this.displayManageUsedCount(); //! Rerender
         });
     });
   }
