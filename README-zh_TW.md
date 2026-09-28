@@ -8,17 +8,17 @@
 
 ## 功能
 
-### 插入帶有標記的程式碼塊
-
-您可以使用命令插入帶標記的程式碼塊：
-
-![list-languages](./images/list-languages.gif)
-
 ### 使用反引號觸發命令
 
 您可以透過使用反引號來觸發標記選擇選單：
 
 ![trigger-suggestions](./images/trigger-suggestions.gif)
+
+### 插入帶有標記的程式碼塊
+
+您可以使用命令插入帶標記的程式碼塊：
+
+![list-languages](./images/list-languages.gif)
 
 ### 其他特性
 
