@@ -11,6 +11,7 @@
     "markup-placeholder": "標記",
     "lang-placeholder": "語言名稱（可選）",
     "title-placeholder": "標記標題（可選）",
+    "after-space": "允許在空格建議中使用",
     "add-tip": "新增新的語言"
   },
   "command": {
@@ -29,6 +30,8 @@
     "show-alias-labels-desc": "在語言列表中顯示別名標籤。",
     "show-cbc-parameters": "顯示 Codeblock Customizer 參數",
     "show-cbc-parameters-desc": "在標記列表中包含 Codeblock Customizer 參數。僅在安裝了 Codeblock Customizer 外掛時才需要。",
+    "allow-after-space-suggest": "允許在空格處觸發標記選擇選單",
+    "allow-after-space-suggest-desc": "在反引號右側的空格之後觸發標記選擇選單，以便輸入一些用於外掛的命令。",
     "custom-languages": "自定義語言",
     "custom-languages-desc": "管理自定義語法高亮標記。",
     "used-count": "使用計數",

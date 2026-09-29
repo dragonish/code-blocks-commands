@@ -3,6 +3,7 @@ interface LanguageCode {
   lang: string;
   title?: string;
   isAlias?: boolean;
+  afterSpace?: boolean;
 }
 
 interface LanguageItem extends LanguageCode {
@@ -16,6 +17,7 @@ interface UsedCount {
 interface CodeBlocksPluginSettings {
   showAliasLabels?: boolean;
   showCodeblockCustomizerParameters?: boolean;
+  allowAfterSpaceSuggest?: boolean;
   customLanguages: LanguageCode[];
   usedCount: UsedCount;
 }

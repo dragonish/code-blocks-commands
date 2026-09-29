@@ -44,11 +44,18 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
   }
 
   getSuggestions(context: EditorSuggestContext): FuzzyMatch<LanguageItem>[] {
-    const query = context.query.toLowerCase();
+    const queryRaw = context.query.toLowerCase();
+    const isSpaceQuery = queryRaw.startsWith(" ");
+    const query = isSpaceQuery ? queryRaw.substring(1) : queryRaw;
+
     const fuzzy = prepareFuzzySearch(query);
 
     const result = this.plugin.languages
       .map((item) => {
+        if (isSpaceQuery && !item.afterSpace) {
+          return null;
+        }
+
         const text = renderText(item);
         const match = fuzzy(text);
         if (match) {
@@ -75,7 +82,7 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
   ): EditorSuggestTriggerInfo | null {
     const line = cursor.line;
     const lineText = editor.getLine(line);
-    const matchArr = lineText.match(/^([> \t]*`{3,}\s*)([^`\s]*)/);
+    const matchArr = lineText.match(/^([> \t]*`{3,}\s*)([^`:='"\s]*)$/);
     if (matchArr) {
       const backticksLen = matchArr[1].length;
       const query = matchArr[2];
@@ -90,7 +97,25 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
         end: { line, ch: endLen },
         query,
       };
+    } else if (this.plugin.settings.allowAfterSpaceSuggest) {
+      const matchArr = lineText.match(/^([> \t]*`{3,}\s*.+\s+)([^`:='"\s]*)$/);
+      if (matchArr) {
+        const spacesLen = matchArr[1].length;
+        const query = matchArr[2];
+        const endLen = spacesLen + query.length;
+        if (cursor.ch < spacesLen || cursor.ch > endLen) {
+          this.close(); //? Handle the case when opened manually.
+          return null;
+        }
+
+        return {
+          start: { line, ch: spacesLen },
+          end: { line, ch: endLen },
+          query: ` ${query}`, //? Prefixing with spaces to identify it as a special space query
+        };
+      }
     }
+
     this.close(); //? Handle the case when opened manually.
     return null;
   }

@@ -27,6 +27,7 @@ You can insert code blocks with markup using the command:
   - Markup: **Required**, the markup of the language.
   - Language name: Optional, the name of the language.
   - Markup title: Optional, for markup that is not derived from the language name, a related title can be provided for easy retrieval.
+  - Show in after-space suggestions: Optional, allows this markup to appear in the markup selection menu triggered after a space to the right of the backticks. Only takes effect when "Allow triggering the markup selection menu at empty spaces" is enabled in the plugin settings.
 - Optionally include the parameters of the [Codeblock Customizer](https://github.com/mugiwara85/CodeblockCustomizer) plugin in the markup list. Enable it in the plugin settings if you have that plugin installed.
 
 ## Credits

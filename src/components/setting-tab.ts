@@ -4,6 +4,7 @@ import {
   PluginSettingTab,
   Setting,
   TextComponent,
+  ToggleComponent,
 } from "obsidian";
 import { CodeBlocksPlugin } from "./plugin";
 
@@ -32,6 +33,19 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
           .setValue(this.plugin.settings.showAliasLabels || false)
           .onChange((value) => {
             this.plugin.settings.showAliasLabels = value;
+            this.plugin.debouncedSaveSettings();
+          });
+      });
+
+    //* allowAfterSpaceSuggest
+    new Setting(containerEl)
+      .setName(i18n.t("setting.allow-after-space-suggest"))
+      .setDesc(i18n.t("setting.allow-after-space-suggest-desc"))
+      .addToggle((toggle) => {
+        toggle
+          .setValue(this.plugin.settings.allowAfterSpaceSuggest || false)
+          .onChange((value) => {
+            this.plugin.settings.allowAfterSpaceSuggest = value;
             this.plugin.debouncedSaveSettings();
           });
       });
@@ -155,6 +169,20 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         .setValue(language.title || "")
         .onChange((value) => {
           this.plugin.settings.customLanguages[index].title = value.trim();
+          this.plugin.loadLanguages();
+          this.plugin.debouncedSaveSettings();
+        });
+
+      const toggleRow = card.createDiv({
+        cls: "code-blocks-commands-language-toggle",
+      });
+      toggleRow.createSpan({
+        text: i18n.t("language.after-space"),
+      });
+      new ToggleComponent(toggleRow)
+        .setValue(language.afterSpace || false)
+        .onChange((value) => {
+          this.plugin.settings.customLanguages[index].afterSpace = value;
           this.plugin.loadLanguages();
           this.plugin.debouncedSaveSettings();
         });

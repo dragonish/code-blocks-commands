@@ -36,3 +36,16 @@
   flex: 1 1 8em;
   min-width: 0;
 }
+
+.code-blocks-commands-language-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  margin-top: var(--size-4-3);
+  color: var(--text-normal);
+  font-size: var(--font-ui-small);
+}
+
+.code-blocks-commands-language-toggle > .checkbox-container {
+  flex: 0 0 auto;
+}
