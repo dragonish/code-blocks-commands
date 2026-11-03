@@ -123,6 +123,11 @@ Follow Obsidian's **Developer Policies** and **Plugin Guidelines**. In particula
 - Use arrow notation for navigation: **Settings → Community plugins**.
 - Keep in-app strings short, consistent, and free of jargon.
 
+## Documentation
+
+- User-visible behavior changes must be reflected in all three READMEs: `README.md`, `README-zh_CN.md`, and `README-zh_TW.md`.
+- In-app copy lives in `src/locales/` (`en.json`, `zh.json`, `zh-TW.json`). Update every locale when adding or changing a key.
+
 ## Performance
 
 - Keep startup light. Defer heavy work until needed.
