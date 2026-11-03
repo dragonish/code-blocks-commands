@@ -8,6 +8,7 @@ import {
 import { CodeBlocksEditorSuggest } from "./suggest";
 import { CodeBlocksListModal } from "./list";
 import { CodeBlocksPluginSettingsTab } from "./setting-tab";
+import { isUsedCountEntry, usageScore } from "./usage";
 
 export class CodeBlocksPlugin extends Plugin {
   settings: CodeBlocksPluginSettings;
@@ -74,7 +75,52 @@ export class CodeBlocksPlugin extends Plugin {
 
   private async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-    this.pruneUsedCount();
+    const migrated = this.migrateUsedCount();
+    const pruned = this.pruneUsedCount();
+    if (migrated || pruned) {
+      //? Persist the upgraded shape right away, otherwise legacy entries would
+      //? get their `lastUsed` refreshed on every launch and never decay.
+      await this.saveSettings();
+    }
+  }
+
+  /**
+   * Upgrade `usedCount` from the legacy `{ markup: number }` shape to
+   * `{ markup: { count, lastUsed } }`. Legacy entries are stamped with the
+   * current time so their existing weight is preserved.
+   * @returns Whether anything changed.
+   */
+  private migrateUsedCount(): boolean {
+    const now = Date.now();
+    const raw = (this.settings.usedCount ?? {}) as Record<string, unknown>;
+    const usedCount: UsedCount = {};
+    let migrated = false;
+
+    for (const [markup, value] of Object.entries(raw)) {
+      if (typeof value === "number") {
+        //? Legacy shape.
+        migrated = true;
+        if (value > 0) {
+          usedCount[markup] = { count: value, lastUsed: now };
+        }
+      } else if (isUsedCountEntry(value)) {
+        if (value.count <= 0) {
+          migrated = true;
+          continue;
+        }
+        const lastUsed = value.lastUsed > 0 ? value.lastUsed : now;
+        if (lastUsed !== value.lastUsed) {
+          migrated = true;
+        }
+        usedCount[markup] = { count: value.count, lastUsed };
+      } else {
+        //? Unknown shape, drop it.
+        migrated = true;
+      }
+    }
+
+    this.settings.usedCount = usedCount;
+    return migrated;
   }
 
   /**
@@ -82,8 +128,9 @@ export class CodeBlocksPlugin extends Plugin {
    * `usedCount` cannot grow forever when custom languages are renamed or
    * removed. Both built-in lists are always considered, otherwise toggling the
    * Codeblock Customizer parameters would discard counters.
+   * @returns Whether anything was pruned.
    */
-  private pruneUsedCount() {
+  private pruneUsedCount(): boolean {
     const known = new Set(
       sourceLanguages
         .concat(codeblockCustomizerParameters)
@@ -94,11 +141,16 @@ export class CodeBlocksPlugin extends Plugin {
     }
 
     const usedCount: UsedCount = {};
-    const entries = Object.entries(this.settings.usedCount ?? {});
-    for (const [markup, count] of entries) {
-      if (known.has(markup)) usedCount[markup] = count;
+    let pruned = false;
+    for (const [markup, entry] of Object.entries(this.settings.usedCount)) {
+      if (known.has(markup)) {
+        usedCount[markup] = entry;
+      } else {
+        pruned = true;
+      }
     }
     this.settings.usedCount = usedCount;
+    return pruned;
   }
 
   private async saveSettings() {
@@ -112,19 +164,27 @@ export class CodeBlocksPlugin extends Plugin {
       ? sourceLanguages.concat(codeblockCustomizerParameters)
       : sourceLanguages;
 
+    const now = Date.now();
     this.languages = this.settings.customLanguages
       .filter((item) => item.markup)
       .concat(builtinLanguages)
-      .map((item) => ({
-        ...item,
-        count: this.settings.usedCount[item.markup] || 0,
-      }))
-      .sort((a, b) => b.count - a.count);
+      .map((item) => {
+        const entry = this.settings.usedCount[item.markup];
+        return {
+          ...item,
+          count: entry?.count ?? 0,
+          usage: entry ? usageScore(entry.count, entry.lastUsed, now) : 0,
+        };
+      })
+      .sort((a, b) => b.usage - a.usage);
   }
 
   onSelectMarkup(markup: string) {
     const usedCount = this.settings.usedCount;
-    usedCount[markup] = (usedCount[markup] ?? 0) + 1;
+    const entry = usedCount[markup] ?? { count: 0, lastUsed: 0 };
+    entry.count += 1;
+    entry.lastUsed = Date.now();
+    usedCount[markup] = entry;
     this.loadLanguages();
     this.debouncedSaveSettings();
   }

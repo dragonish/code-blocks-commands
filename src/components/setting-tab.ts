@@ -1,12 +1,14 @@
 import {
   App,
   ButtonComponent,
+  moment,
   PluginSettingTab,
   Setting,
   TextComponent,
   ToggleComponent,
 } from "obsidian";
 import { CodeBlocksPlugin } from "./plugin";
+import { usageScore } from "./usage";
 
 export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
   private plugin: CodeBlocksPlugin;
@@ -234,9 +236,14 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         });
       });
 
+    const now = Date.now();
     const list = Object.entries(this.plugin.settings.usedCount)
-      .map(([key, count]) => ({ key, count }))
-      .sort((a, b) => b.count - a.count);
+      .map(([markup, entry]) => ({
+        markup,
+        ...entry,
+        usage: usageScore(entry.count, entry.lastUsed, now),
+      }))
+      .sort((a, b) => b.usage - a.usage);
 
     list.forEach((item) => {
       const card = containerEl.createDiv({
@@ -248,8 +255,9 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
       });
       header.createSpan({
         text: i18n.t("setting.used-count-item", {
-          markup: item.key,
+          markup: item.markup,
           count: item.count,
+          lastUsed: moment(item.lastUsed).format("YYYY-MM-DD HH:mm"),
         }),
       });
 
@@ -257,7 +265,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         .setButtonText(i18n.t("button.reset"))
         .setDestructive()
         .onClick(() => {
-          delete this.plugin.settings.usedCount[item.key];
+          delete this.plugin.settings.usedCount[item.markup];
           this.plugin.loadLanguages();
           this.plugin.debouncedSaveSettings();
           this.displayManageUsedCount(); //! Rerender

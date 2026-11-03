@@ -84,16 +84,16 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
       .filter((value): value is SuggestionCandidate => value !== null);
 
     //? Normalize both signals to [0, 1]: the raw fuzzy score scale depends on
-    //? the candidate text, and usage counts are unbounded.
+    //? the candidate text, and usage scores are unbounded.
     const maxScore = Math.max(0, ...result.map(({ match }) => match.score));
-    const logMaxCount = Math.log1p(
-      Math.max(0, ...result.map(({ item }) => item.count)),
+    const logMaxUsage = Math.log1p(
+      Math.max(0, ...result.map(({ item }) => item.usage)),
     );
 
     const ranked = result.map((candidate) => {
       const relevance = maxScore > 0 ? candidate.match.score / maxScore : 0;
       const usage =
-        logMaxCount > 0 ? Math.log1p(candidate.item.count) / logMaxCount : 0;
+        logMaxUsage > 0 ? Math.log1p(candidate.item.usage) / logMaxUsage : 0;
       return {
         ...candidate,
         rank: RELEVANCE_WEIGHT * relevance + USAGE_WEIGHT * usage,

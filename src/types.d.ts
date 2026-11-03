@@ -8,10 +8,19 @@ interface LanguageCode {
 
 interface LanguageItem extends LanguageCode {
   count: number;
+  /** Decayed usage score used for ranking, see `usageScore`. */
+  usage: number;
+}
+
+interface UsedCountEntry {
+  /** How many times the markup has been selected. */
+  count: number;
+  /** Unix timestamp (ms) of the last selection, 0 when unknown. */
+  lastUsed: number;
 }
 
 interface UsedCount {
-  [markup: string]: number;
+  [markup: string]: UsedCountEntry;
 }
 
 interface CodeBlocksPluginSettings {

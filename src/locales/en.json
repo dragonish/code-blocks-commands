@@ -33,12 +33,12 @@
     "allow-after-space-suggest": "Allow triggering the markup selection menu at empty spaces.",
     "allow-after-space-suggest-desc": "Trigger the marker selection menu after the space to the right of the backticks, so that you can enter some commands for the plugin.",
     "prioritize-prefix-match": "Prefer prefix matches",
-    "prioritize-prefix-match-desc": "Show suggestions that start with the search term before other matches, regardless of usage count.",
+    "prioritize-prefix-match-desc": "Show suggestions that start with the search term before other matches, regardless of usage weight.",
     "custom-languages": "Custom languages",
     "custom-languages-desc": "Manage custom syntax highlighting markups.",
     "used-count": "Used count",
-    "used-count-desc": "Manage the usage count of language markups.",
-    "used-count-item": "Markup: {markup} - Count: {count}",
+    "used-count-desc": "Manage the usage count of language markups. Older usage gradually loses weight, so recently used markups are suggested first.",
+    "used-count-item": "Markup: {markup} - Count: {count} - Last used: {lastUsed}",
     "reset-used-count": "Reset used count",
     "reset-used-count-desc": "Reset the usage count of each language markup."
   }

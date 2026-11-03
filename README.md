@@ -22,8 +22,8 @@ You can insert code blocks with markup using the command:
 
 ### Other features
 
-- The plugin will sort the markup list based on usage habits.
-- Optionally show suggestions that start with the search term before other matches, ignoring their usage count. Enabled via "Prefer prefix matches" in the plugin settings; disabled by default.
+- The plugin will sort the markup list based on usage habits. Each markup's usage weight halves every 30 days without being used, so recently used markups are suggested first.
+- Optionally show suggestions that start with the search term before other matches, ignoring their usage weight. Enabled via "Prefer prefix matches" in the plugin settings; disabled by default.
 - Allow custom syntax highlighting markups. For each language:
   - Markup: **Required**, the markup of the language.
   - Language name: Optional, the name of the language.
