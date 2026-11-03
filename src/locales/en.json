@@ -25,6 +25,9 @@
     "empty": "No languages found.",
     "placeholder": "Type the search term"
   },
+  "suggest": {
+    "alias": "alias"
+  },
   "setting": {
     "show-alias-labels": "Show alias labels",
     "show-alias-labels-desc": "Show alias labels in the language list.",

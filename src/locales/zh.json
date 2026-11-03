@@ -25,6 +25,9 @@
     "empty": "未找到语言。",
     "placeholder": "输入搜索词"
   },
+  "suggest": {
+    "alias": "别名"
+  },
   "setting": {
     "show-alias-labels": "显示别名标签",
     "show-alias-labels-desc": "在语言列表中显示别名标签。",

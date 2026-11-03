@@ -7,10 +7,10 @@ import {
   EditorSuggestTriggerInfo,
   FuzzyMatch,
   prepareFuzzySearch,
-  renderResults,
   SearchResult,
 } from "obsidian";
 import type { CodeBlocksPlugin } from "./plugin";
+import { renderSuggestionItem } from "./suggest-render";
 import { renderText } from "./tool";
 
 type SuggestionCandidate = {
@@ -159,15 +159,12 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
   }
 
   renderSuggestion(value: FuzzyMatch<LanguageItem>, el: HTMLElement): void {
-    const text = renderText(value.item);
-    renderResults(el, text, value.match);
-    if (this.plugin.settings.showAliasLabels && value.item.isAlias) {
-      const alias = createEl("small", {
-        cls: "code-blocks-commands-list-alias-label",
-        text: "alias",
-      });
-      el.appendChild(alias);
-    }
+    renderSuggestionItem(
+      el,
+      value.item,
+      value.match,
+      this.plugin.settings.showAliasLabels && value.item.isAlias,
+    );
   }
 
   selectSuggestion(value: FuzzyMatch<LanguageItem>): void {

@@ -1,12 +1,40 @@
-.code-blocks-commands-list-alias-label {
-  font-style: italic;
-  margin-left: var(--size-4-1);
+.code-blocks-commands-suggestion {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* The markup on one line, its optional `title · lang` info on the next. */
+.code-blocks-commands-suggestion-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.code-blocks-commands-suggestion-primary {
+  line-height: var(--line-height-tight);
+}
+
+/* `title · lang` rendered in a muted color and smaller size. */
+.code-blocks-commands-suggestion-secondary {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  line-height: var(--line-height-tight);
+  margin-top: var(--size-4-1);
+}
+
+/* Alias badge on the right (icon with a tooltip). */
+.code-blocks-commands-suggestion-alias {
+  --icon-size: var(--icon-s);
+  --icon-color: var(--text-muted);
+  flex: 0 0 auto;
+  margin-left: var(--size-4-2);
 }
 
 .code-blocks-commands-card {
   background-color: var(--setting-items-background, var(--background-secondary));
-  border: var(--setting-items-border-width, 1px) solid
-    var(--setting-items-border-color, var(--background-modifier-border));
+  border: var(--setting-items-border-width, 1px) solid var(--setting-items-border-color, var(--background-modifier-border));
   border-radius: var(--setting-items-radius, var(--radius-m));
   padding: var(--size-4-4);
   margin-bottom: var(--size-4-2);
@@ -21,7 +49,7 @@
   font-size: var(--font-ui-small);
 }
 
-.code-blocks-commands-card-header > button {
+.code-blocks-commands-card-header>button {
   flex: 0 0 auto;
 }
 
@@ -46,6 +74,6 @@
   font-size: var(--font-ui-small);
 }
 
-.code-blocks-commands-language-toggle > .checkbox-container {
+.code-blocks-commands-language-toggle>.checkbox-container {
   flex: 0 0 auto;
 }
