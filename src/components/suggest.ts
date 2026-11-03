@@ -5,12 +5,24 @@ import {
   EditorSuggest,
   EditorSuggestContext,
   EditorSuggestTriggerInfo,
-  prepareFuzzySearch,
   FuzzyMatch,
+  prepareFuzzySearch,
   renderResults,
+  SearchResult,
 } from "obsidian";
 import type { CodeBlocksPlugin } from "./plugin";
 import { renderText } from "./tool";
+
+type SuggestionCandidate = {
+  item: LanguageItem;
+  match: SearchResult;
+  isPrefix: boolean;
+};
+
+//? Weights of fuzzy relevance vs. usage count. Set `USAGE_WEIGHT` to 0 to rank
+//? purely by match quality, or raise it to favor frequently used markups.
+const RELEVANCE_WEIGHT = 0.7;
+const USAGE_WEIGHT = 0.3;
 
 export class CodeBlocksEditorSuggest extends EditorSuggest<
   FuzzyMatch<LanguageItem>
@@ -49,10 +61,11 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
     const query = isSpaceQuery ? queryRaw.substring(1) : queryRaw;
 
     const fuzzy = prepareFuzzySearch(query);
-    const prioritizePrefix = this.plugin.settings.prioritizePrefixMatch;
+    const prioritizePrefix =
+      this.plugin.settings.prioritizePrefixMatch ?? false;
 
     const result = this.plugin.languages
-      .map((item) => {
+      .map((item): SuggestionCandidate | null => {
         if (isSpaceQuery && !item.afterSpace) {
           return null;
         }
@@ -68,18 +81,37 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
         }
         return null;
       })
-      .filter((v) => v != null)
-      .sort((a, b) => {
-        if (a.isPrefix !== b.isPrefix) {
-          return a.isPrefix ? -1 : 1;
-        }
-        if (a.item.count === b.item.count) {
-          return b.match.score - a.match.score;
-        }
-        return 0;
-      })
-      .map(({ item, match }) => ({ item, match }));
-    return result;
+      .filter((value): value is SuggestionCandidate => value !== null);
+
+    //? Normalize both signals to [0, 1]: the raw fuzzy score scale depends on
+    //? the candidate text, and usage counts are unbounded.
+    const maxScore = Math.max(0, ...result.map(({ match }) => match.score));
+    const logMaxCount = Math.log1p(
+      Math.max(0, ...result.map(({ item }) => item.count)),
+    );
+
+    const ranked = result.map((candidate) => {
+      const relevance = maxScore > 0 ? candidate.match.score / maxScore : 0;
+      const usage =
+        logMaxCount > 0 ? Math.log1p(candidate.item.count) / logMaxCount : 0;
+      return {
+        ...candidate,
+        rank: RELEVANCE_WEIGHT * relevance + USAGE_WEIGHT * usage,
+      };
+    });
+
+    ranked.sort((a, b) => {
+      if (a.isPrefix !== b.isPrefix) {
+        return a.isPrefix ? -1 : 1;
+      }
+      if (a.rank !== b.rank) {
+        return b.rank - a.rank;
+      }
+      //? Deterministic order when two candidates rank equally.
+      return a.item.markup.localeCompare(b.item.markup);
+    });
+
+    return ranked.map(({ item, match }) => ({ item, match }));
   }
 
   onTrigger(
