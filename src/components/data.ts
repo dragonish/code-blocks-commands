@@ -1,6 +1,8 @@
 export const DEFAULT_SETTINGS: CodeBlocksPluginSettings = {
   showAliasLabels: false,
   showCodeblockCustomizerParameters: false,
+  allowAfterSpaceSuggest: false,
+  prioritizePrefixMatch: false,
   customLanguages: [],
   usedCount: {},
 };

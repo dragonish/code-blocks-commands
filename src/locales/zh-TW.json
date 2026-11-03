@@ -32,6 +32,8 @@
     "show-cbc-parameters-desc": "在標記列表中包含 Codeblock Customizer 參數。僅在安裝了 Codeblock Customizer 外掛時才需要。",
     "allow-after-space-suggest": "允許在空格處觸發標記選擇選單",
     "allow-after-space-suggest-desc": "在反引號右側的空格之後觸發標記選擇選單，以便輸入一些用於外掛的命令。",
+    "prioritize-prefix-match": "優先顯示開頭匹配",
+    "prioritize-prefix-match-desc": "當建議項的開頭與輸入內容完全匹配時，優先顯示這些建議項，忽略使用次數。",
     "custom-languages": "自定義語言",
     "custom-languages-desc": "管理自定義語法高亮標記。",
     "used-count": "使用計數",

@@ -18,6 +18,7 @@ interface CodeBlocksPluginSettings {
   showAliasLabels?: boolean;
   showCodeblockCustomizerParameters?: boolean;
   allowAfterSpaceSuggest?: boolean;
+  prioritizePrefixMatch?: boolean;
   customLanguages: LanguageCode[];
   usedCount: UsedCount;
 }

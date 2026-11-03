@@ -32,6 +32,8 @@
     "show-cbc-parameters-desc": "在标记列表中包含 Codeblock Customizer 参数。仅在安装了 Codeblock Customizer 插件时才需要。",
     "allow-after-space-suggest": "允许在空格处触发标记选择菜单",
     "allow-after-space-suggest-desc": "在反引号右侧的空格之后触发标记选择菜单，以便输入一些用于插件的命令。",
+    "prioritize-prefix-match": "优先显示开头匹配",
+    "prioritize-prefix-match-desc": "当建议项的开头与输入内容完全匹配时，优先显示这些建议项，忽略使用次数。",
     "custom-languages": "自定义语言",
     "custom-languages-desc": "管理自定义语法高亮标记。",
     "used-count": "使用计数",

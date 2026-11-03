@@ -49,6 +49,7 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
     const query = isSpaceQuery ? queryRaw.substring(1) : queryRaw;
 
     const fuzzy = prepareFuzzySearch(query);
+    const prioritizePrefix = this.plugin.settings.prioritizePrefixMatch;
 
     const result = this.plugin.languages
       .map((item) => {
@@ -62,17 +63,22 @@ export class CodeBlocksEditorSuggest extends EditorSuggest<
           return {
             item,
             match,
+            isPrefix: prioritizePrefix && text.toLowerCase().startsWith(query),
           };
         }
         return null;
       })
       .filter((v) => v != null)
       .sort((a, b) => {
+        if (a.isPrefix !== b.isPrefix) {
+          return a.isPrefix ? -1 : 1;
+        }
         if (a.item.count === b.item.count) {
           return b.match.score - a.match.score;
         }
         return 0;
-      });
+      })
+      .map(({ item, match }) => ({ item, match }));
     return result;
   }
 

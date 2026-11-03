@@ -50,6 +50,19 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
           });
       });
 
+    //* prioritizePrefixMatch
+    new Setting(containerEl)
+      .setName(i18n.t("setting.prioritize-prefix-match"))
+      .setDesc(i18n.t("setting.prioritize-prefix-match-desc"))
+      .addToggle((toggle) => {
+        toggle
+          .setValue(this.plugin.settings.prioritizePrefixMatch || false)
+          .onChange((value) => {
+            this.plugin.settings.prioritizePrefixMatch = value;
+            this.plugin.debouncedSaveSettings();
+          });
+      });
+
     //* showCodeblockCustomizerParameters
     new Setting(containerEl)
       .setName(i18n.t("setting.show-cbc-parameters"))

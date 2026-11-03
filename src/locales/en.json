@@ -32,6 +32,8 @@
     "show-cbc-parameters-desc": "Include Codeblock Customizer parameters in the markup list. Only needed if you have the Codeblock Customizer plugin installed.",
     "allow-after-space-suggest": "Allow triggering the markup selection menu at empty spaces.",
     "allow-after-space-suggest-desc": "Trigger the marker selection menu after the space to the right of the backticks, so that you can enter some commands for the plugin.",
+    "prioritize-prefix-match": "Prefer prefix matches",
+    "prioritize-prefix-match-desc": "Show suggestions that start with the search term before other matches, regardless of usage count.",
     "custom-languages": "Custom languages",
     "custom-languages-desc": "Manage custom syntax highlighting markups.",
     "used-count": "Used count",
