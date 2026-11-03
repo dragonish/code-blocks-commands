@@ -53,6 +53,12 @@ export class CodeBlocksPlugin extends Plugin {
     this.addSettingTab(new CodeBlocksPluginSettingsTab(this.app, this));
   }
 
+  onunload() {
+    //! Flush the pending debounced save, otherwise the last selection made
+    //! within the debounce window is lost when Obsidian quits.
+    void this.debouncedSaveSettings.run();
+  }
+
   private showLanguagesModal(editor?: Editor) {
     const activeEditor = editor || this.app.workspace.activeEditor?.editor;
     if (activeEditor) {
@@ -68,6 +74,31 @@ export class CodeBlocksPlugin extends Plugin {
 
   private async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    this.pruneUsedCount();
+  }
+
+  /**
+   * Drop counters whose markup no longer exists in any language list, so
+   * `usedCount` cannot grow forever when custom languages are renamed or
+   * removed. Both built-in lists are always considered, otherwise toggling the
+   * Codeblock Customizer parameters would discard counters.
+   */
+  private pruneUsedCount() {
+    const known = new Set(
+      sourceLanguages
+        .concat(codeblockCustomizerParameters)
+        .map((item) => item.markup),
+    );
+    for (const item of this.settings.customLanguages ?? []) {
+      if (item.markup) known.add(item.markup);
+    }
+
+    const usedCount: UsedCount = {};
+    const entries = Object.entries(this.settings.usedCount ?? {});
+    for (const [markup, count] of entries) {
+      if (known.has(markup)) usedCount[markup] = count;
+    }
+    this.settings.usedCount = usedCount;
   }
 
   private async saveSettings() {
@@ -92,11 +123,8 @@ export class CodeBlocksPlugin extends Plugin {
   }
 
   onSelectMarkup(markup: string) {
-    if (this.settings.usedCount[markup] != undefined) {
-      this.settings.usedCount[markup]++;
-    } else {
-      this.settings.usedCount[markup] = 1;
-    }
+    const usedCount = this.settings.usedCount;
+    usedCount[markup] = (usedCount[markup] ?? 0) + 1;
     this.loadLanguages();
     this.debouncedSaveSettings();
   }
