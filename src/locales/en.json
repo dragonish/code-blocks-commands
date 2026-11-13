@@ -19,7 +19,10 @@
     "trigger-suggestions": "Trigger suggestions"
   },
   "notification": {
-    "reset": "The usage count has been reset."
+    "reset": "The usage count has been reset.",
+    "usage-file-enabled": "Usage records are now stored in usage.json.",
+    "usage-file-disabled": "Usage records are back in data.json; usage.json was deleted.",
+    "usage-file-write-failed": "Could not write usage.json. Usage records were kept in data.json instead."
   },
   "list": {
     "empty": "No languages found.",
@@ -41,6 +44,8 @@
     "custom-languages-desc": "Manage custom syntax highlighting markups.",
     "used-count": "Used count",
     "used-count-desc": "Manage the usage count of language markups. Older usage gradually loses weight, so recently used markups are suggested first.",
+    "store-usage-separately": "Store usage records separately",
+    "store-usage-separately-desc": "Save the usage count to usage.json in the plugin folder instead of data.json, so that sync tools can exclude usage records on their own. Disabling moves the records back to data.json and deletes the file.",
     "used-count-item": "Markup: {markup} - Count: {count} - Last used: {lastUsed}",
     "reset-used-count": "Reset used count",
     "reset-used-count-desc": "Reset the usage count of each language markup."

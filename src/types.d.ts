@@ -28,6 +28,8 @@ interface CodeBlocksPluginSettings {
   showCodeblockCustomizerParameters?: boolean;
   allowAfterSpaceSuggest?: boolean;
   prioritizePrefixMatch?: boolean;
+  /** Keep the usage counters in a separate file instead of `data.json`. */
+  storeUsageSeparately?: boolean;
   customLanguages: LanguageCode[];
   usedCount: UsedCount;
 }

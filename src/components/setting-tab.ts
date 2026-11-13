@@ -91,6 +91,28 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         });
       });
 
+    //* storeUsageSeparately
+    new Setting(containerEl)
+      .setName(i18n.t("setting.store-usage-separately"))
+      .setDesc(i18n.t("setting.store-usage-separately-desc"))
+      .addToggle((toggle) => {
+        toggle
+          .setValue(this.plugin.settings.storeUsageSeparately || false)
+          .onChange(async (value) => {
+            this.plugin.settings.storeUsageSeparately = value;
+            //! Persist right away: the debounced save could otherwise quit with
+            //! `data.json` and `usage.json` out of sync.
+            await this.plugin.saveSettings();
+            this.plugin.sendNotification(
+              i18n.t(
+                value
+                  ? "notification.usage-file-enabled"
+                  : "notification.usage-file-disabled",
+              ),
+            );
+          });
+      });
+
     //* usedCount
     new Setting(containerEl)
       .setName(i18n.t("setting.used-count"))

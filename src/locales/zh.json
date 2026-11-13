@@ -19,7 +19,10 @@
     "trigger-suggestions": "触发建议"
   },
   "notification": {
-    "reset": "使用计数已重置。"
+    "reset": "使用计数已重置。",
+    "usage-file-enabled": "使用记录已改为存储在 usage.json 中。",
+    "usage-file-disabled": "使用记录已迁回 data.json，usage.json 已删除。",
+    "usage-file-write-failed": "无法写入 usage.json。使用记录已暂存到 data.json 中。"
   },
   "list": {
     "empty": "未找到语言。",
@@ -41,6 +44,8 @@
     "custom-languages-desc": "管理自定义语法高亮标记。",
     "used-count": "使用计数",
     "used-count-desc": "管理语言标记的使用计数。较早的使用记录会逐渐降低权重，因此最近使用的标记会优先显示。",
+    "store-usage-separately": "单独存储使用记录",
+    "store-usage-separately-desc": "将使用计数保存到插件目录下的 usage.json，而不是 data.json，以便在同步服务中单独排除使用记录。关闭时会迁回 data.json 并删除该文件。",
     "used-count-item": "标记：{markup} - 计数：{count} - 最近使用：{lastUsed}",
     "reset-used-count": "重置使用计数",
     "reset-used-count-desc": "重置每个语言标记的使用计数。"

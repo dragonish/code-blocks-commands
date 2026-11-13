@@ -9,6 +9,13 @@ import { CodeBlocksEditorSuggest } from "./suggest";
 import { CodeBlocksListModal } from "./list";
 import { CodeBlocksPluginSettingsTab } from "./setting-tab";
 import { isUsedCountEntry, usageScore } from "./usage";
+import {
+  getUsageFilePath,
+  mergeUsageCount,
+  readUsageFile,
+  removeUsageFile,
+  writeUsageFile,
+} from "./usage-file";
 
 export class CodeBlocksPlugin extends Plugin {
   settings: CodeBlocksPluginSettings;
@@ -16,6 +23,13 @@ export class CodeBlocksPlugin extends Plugin {
   i18n = i18n;
 
   private editorSuggest: CodeBlocksEditorSuggest;
+
+  private usageFileWriteWarned = false;
+
+  /** Path of the usage file, used when `storeUsageSeparately` is enabled. */
+  private get usageFilePath() {
+    return getUsageFilePath(this.app, this.manifest.id);
+  }
 
   async onload() {
     await this.loadSettings();
@@ -74,10 +88,36 @@ export class CodeBlocksPlugin extends Plugin {
   }
 
   private async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const data = (await this.loadData()) as
+      | Partial<CodeBlocksPluginSettings>
+      | null
+      | undefined;
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, data);
+
+    let usageFileChanged = false;
+    if (this.settings.storeUsageSeparately) {
+      const stored = await readUsageFile(this.app, this.usageFilePath);
+      if (stored) {
+        //? Merge instead of replacing: a failed write or a crash between the
+        //? two writes can leave newer counters behind in `data.json`.
+        this.settings.usedCount = mergeUsageCount(
+          stored,
+          this.settings.usedCount ?? {},
+        );
+      } else {
+        //? First launch with the option enabled: move the records kept in
+        //? `data.json` over to the dedicated file.
+        usageFileChanged = true;
+      }
+      if (data && Object.prototype.hasOwnProperty.call(data, "usedCount")) {
+        //? Strip the duplicate copy from `data.json` right away.
+        usageFileChanged = true;
+      }
+    }
+
     const migrated = this.migrateUsedCount();
     const pruned = this.pruneUsedCount();
-    if (migrated || pruned) {
+    if (usageFileChanged || migrated || pruned) {
       //? Persist the upgraded shape right away, otherwise legacy entries would
       //? get their `lastUsed` refreshed on every launch and never decay.
       await this.saveSettings();
@@ -153,8 +193,41 @@ export class CodeBlocksPlugin extends Plugin {
     return pruned;
   }
 
-  private async saveSettings() {
-    await this.saveData(this.settings);
+  async saveSettings() {
+    if (!this.settings.storeUsageSeparately) {
+      //? Write the counters back into `data.json` before dropping the file, so
+      //? no usage is lost when removing it fails.
+      await this.saveData(this.settings);
+      await removeUsageFile(this.app, this.usageFilePath);
+      return;
+    }
+
+    const written = await writeUsageFile(
+      this.app,
+      this.usageFilePath,
+      this.settings.usedCount ?? {},
+    );
+    if (!written) {
+      //? Keep the counters in `data.json` as a fallback so a read-only vault
+      //? cannot lose them. They are merged back once writing succeeds.
+      this.warnUsageFileWriteFailure();
+      await this.saveData(this.settings);
+      return;
+    }
+
+    //? Keep `data.json` free of the counters, otherwise sync tools would still
+    //? transfer the usage records.
+    const data: Partial<CodeBlocksPluginSettings> = { ...this.settings };
+    delete data.usedCount;
+    await this.saveData(data);
+  }
+
+  private warnUsageFileWriteFailure() {
+    if (this.usageFileWriteWarned) {
+      return;
+    }
+    this.usageFileWriteWarned = true;
+    this.sendNotification(this.i18n.t("notification.usage-file-write-failed"));
   }
 
   debouncedSaveSettings = debounce(this.saveSettings.bind(this), 1000, true);
