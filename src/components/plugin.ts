@@ -69,9 +69,10 @@ export class CodeBlocksPlugin extends Plugin {
   }
 
   onunload() {
-    //! Flush the pending debounced save, otherwise the last selection made
+    //! Flush the pending debounced saves, otherwise the last selection made
     //! within the debounce window is lost when Obsidian quits.
     void this.debouncedSaveSettings.run();
+    void this.debouncedSaveUsage.run();
   }
 
   private showLanguagesModal(editor?: Editor) {
@@ -117,10 +118,14 @@ export class CodeBlocksPlugin extends Plugin {
 
     const migrated = this.migrateUsedCount();
     const pruned = this.pruneUsedCount();
-    if (usageFileChanged || migrated || pruned) {
+    if (usageFileChanged) {
       //? Persist the upgraded shape right away, otherwise legacy entries would
-      //? get their `lastUsed` refreshed on every launch and never decay.
+      //? get their `lastUsed` refreshed on every launch and never decay. Also
+      //? strips the counters left in `data.json`.
       await this.saveSettings();
+    } else if (migrated || pruned) {
+      //? Only the usage counters changed, so leave `data.json` untouched.
+      await this.saveUsage();
     }
   }
 
@@ -222,6 +227,29 @@ export class CodeBlocksPlugin extends Plugin {
     await this.saveData(data);
   }
 
+  /**
+   * Persist only the usage counters. Used by usage changes so that, with
+   * `storeUsageSeparately` enabled, `data.json` is not rewritten for nothing.
+   */
+  private async saveUsage() {
+    if (!this.settings.storeUsageSeparately) {
+      await this.saveData(this.settings);
+      return;
+    }
+
+    const written = await writeUsageFile(
+      this.app,
+      this.usageFilePath,
+      this.settings.usedCount ?? {},
+    );
+    if (!written) {
+      //? Fall back to `data.json` so a read-only vault cannot lose the
+      //? counters. They are merged back once writing succeeds.
+      this.warnUsageFileWriteFailure();
+      await this.saveData(this.settings);
+    }
+  }
+
   private warnUsageFileWriteFailure() {
     if (this.usageFileWriteWarned) {
       return;
@@ -231,6 +259,8 @@ export class CodeBlocksPlugin extends Plugin {
   }
 
   debouncedSaveSettings = debounce(this.saveSettings.bind(this), 1000, true);
+
+  debouncedSaveUsage = debounce(this.saveUsage.bind(this), 1000, true);
 
   loadLanguages() {
     const builtinLanguages = this.settings.showCodeblockCustomizerParameters
@@ -259,7 +289,7 @@ export class CodeBlocksPlugin extends Plugin {
     entry.lastUsed = Date.now();
     usedCount[markup] = entry;
     this.loadLanguages();
-    this.debouncedSaveSettings();
+    this.debouncedSaveUsage();
   }
 
   sendNotification(message: string) {

@@ -134,7 +134,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
           .onClick(() => {
             this.plugin.settings.usedCount = {};
             this.plugin.loadLanguages();
-            this.plugin.debouncedSaveSettings();
+            this.plugin.debouncedSaveUsage();
             this.plugin.sendNotification(i18n.t("notification.reset"));
           });
       });
@@ -289,7 +289,7 @@ export class CodeBlocksPluginSettingsTab extends PluginSettingTab {
         .onClick(() => {
           delete this.plugin.settings.usedCount[item.markup];
           this.plugin.loadLanguages();
-          this.plugin.debouncedSaveSettings();
+          this.plugin.debouncedSaveUsage();
           this.displayManageUsedCount(); //! Rerender
         });
     });
